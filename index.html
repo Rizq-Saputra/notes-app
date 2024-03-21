@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/768e7b3923.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>My Notes</h1>
+        </header>
+    
+        <section id="notesContainer">
+            <div class="popup-box">
+                <div class="popup">
+                    <div class="content">
+                        <header>
+                            <p></p>
+                            <i class="fa-solid fa-xmark"></i>
+                        </header>
+                        <form action="index.html" id="inputNote">
+                            <custom-input-title label="Title" id="inputTitle"></custom-input-title>
+                            <p id="validationTitle" class="validation-message" aria-live="polite"></p>
+                            <custom-textarea label="Description" class="description" id="inputBody"></custom-textarea>
+                            <p id="validationDescription" class="validation-message" aria-live="polite"></p>
+                            <custom-button id="noteSubmit" value="submit" name="Submit" type="submit"></custom-button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wrapper" id="notesListContainer">
+                <li class="add-box">
+                    <div class="icon"><i class="fa-solid fa-plus"></i></div>
+                    <p>Add new note</p>
+                </li>
+            </div>
+        </section>
+    </main>
+    <custom-footer></custom-footer>
+
+    <script type="module" src="assets/scripts/main.js"></script>
+    <script type="module" src="assets/scripts/components.js"></script>
+</body>
+</html>
