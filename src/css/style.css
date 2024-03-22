@@ -17,6 +17,7 @@ body {
     max-width: 1275px;
     margin: 0 auto;
     padding: 20px;
+    min-height: 100vh;
 }
 
 .container h1 {
@@ -245,10 +246,20 @@ button:hover {
     padding-top: 10px;
     border-top: 1px solid #ccc;
 }
-  
+
 .bottom-content span{
     color: #003eb3;
     font-size: 14px;
+}
+
+.bottom-content .delete{
+  position: relative;
+}
+
+.bottom-content .delete i{
+  color: #003eb3;
+  cursor: pointer;
+  font-size: 20px;
 }
 
 .validation-message {

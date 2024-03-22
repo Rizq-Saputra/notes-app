@@ -1,4 +1,5 @@
 import './popup.js'
+import './components.js'
 
 const notesData = [
     {
@@ -152,6 +153,9 @@ function loadNotes(){
           </div>
           <div class="bottom-content">
               <span>${new Date(note.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+              <div class="delete">
+                <i onclick="delete(this)" class="fa-solid fa-trash"></i>
+              </div>
           </div>`;
       notesListContainer.appendChild(noteElement);
     });
