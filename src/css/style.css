@@ -84,7 +84,7 @@ button:hover {
 .popup-box, .popup{
     opacity: 0;
     pointer-events: none;
-    transition: all 0.25s ease;
+    /* transition: all 0.25s ease; */
 }
   
 .popup-box.show, .popup-box.show .popup{
@@ -168,7 +168,6 @@ button:hover {
     background: #3173ff;
 }
   
-
 /* Notes */
 .wrapper{
     margin: 50px;
@@ -266,6 +265,55 @@ button:hover {
     margin-block-start: 0.5rem;
     color: red;
     margin-bottom: 5px;
+  }
+
+#loader {
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: opacity 0.75s, visibility 0.75s;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+}
+
+#loader p{
+    margin-top: 20px;
+    color: white;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    --c:no-repeat linear-gradient(#003eb3 0 0);
+    background: 
+      var(--c),var(--c),var(--c),
+      var(--c),var(--c),var(--c),
+      var(--c),var(--c),var(--c);
+    background-size: 16px 16px;
+    animation: 
+      l32-1 1s infinite,
+      l32-2 1s infinite;
+  }
+  @keyframes l32-1 {
+    0%,100% {width:90px;height: 90px}
+    35%,65% {width:130px;height: 130px}
+  }
+  @keyframes l32-2 {
+    0%,40%  {background-position: 0 0,0 50%, 0 100%,50% 100%,100% 100%,100% 50%,100% 0,50% 0,  50% 50% }
+    60%,100%{background-position: 0 50%, 0 100%,50% 100%,100% 100%,100% 50%,100% 0,50% 0,0 0,  50% 50% }
   }
 
 

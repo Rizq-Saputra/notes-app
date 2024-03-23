@@ -1,7 +1,55 @@
 const BASE_URL = 'https://notes-api.dicoding.dev/v2';
+const notesListContainer = document.getElementById('notesListContainer');
+
+function hideLoader() {
+  const loader = document.getElementById("loader"); 
+  
+  setTimeout(() => {
+    loader.addEventListener("transitionend", () => {
+      // Pastikan elemen loader sudah dimasukkan ke dalam DOM
+      if (loader.parentNode) {
+        loader.parentNode.removeChild(loader);
+      }
+    });
+    loader.classList.add("hidden");
+  }, 1000); 
+
+
+}
+
+function showLoader() {
+  // Buat elemen section baru
+  const newLoader = document.createElement("section");
+  newLoader.setAttribute("id", "loader");
+
+  // Tambahkan elemen loader ke dalam section
+  newLoader.innerHTML = `
+      <div class="loader"></div>
+      <p>Loading</p>
+  `;
+
+  // Tambahkan elemen loader ke dalam DOM (misalnya, ke dalam elemen body)
+  document.body.appendChild(newLoader);
+}
 
 const showResponseMessage = (message = 'Check your internet connection') => {
-  alert(message);
+  if (message === 'Check your internet connection') {
+    Swal.fire({
+      title: "Message",
+      text: message,
+    });
+  } 
+  // else if (message === 'No notes available.') {
+  //   return new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       resolve();
+  //       Swal.fire({
+  //         title: "Message",
+  //         text: message,
+  //       });
+  //     }, 1500);
+  //   }); 
+  // }
 };
 
 function loadAddBoxEventListener() {
@@ -19,10 +67,7 @@ function loadAddBoxEventListener() {
 }
 
 const renderAllNotes = (notesData) => {
-  const notesListContainer = document.getElementById('notesListContainer');
-
   notesListContainer.innerHTML = '';
-
   // Tambahkan kembali elemen add-box setelah menambahkan catatan
   const addBox = document.createElement('li');
   addBox.classList.add('add-box');
@@ -51,29 +96,38 @@ const renderAllNotes = (notesData) => {
 
     loadAddBoxEventListener();
 
-    // Menghapus elemen note yang dipilih
-    notesListContainer.addEventListener('click', event => {
-      if (event.target.classList.contains('fa-trash')) {
-        const noteId = event.target.id;
-        const confirmation = confirm("Are you sure to delete this note?");
-        if (confirmation) {
-          removeNote(noteId);
-        }
+};
+
+// Menghapus elemen note yang dipilih
+notesListContainer.addEventListener('click', event => {
+  if (event.target.classList.contains('fa-trash')) {
+    const noteId = event.target.id;
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeNote(noteId);
+        
       }
     });
-};
+  }
+});
 
 const getNotes = async () => {
   try {
     const response = await fetch(`${BASE_URL}/notes`);
     const responseJson = await response.json();
-    console.log(responseJson);
     if (responseJson.error) {
       showResponseMessage(responseJson.message);
     } else {
       if (responseJson.data.length === 0) {
-        // showResponseMessage("No notes available.");
-        console.log("No notes available.");
+        showResponseMessage("No notes available.");
       } else {
         renderAllNotes(responseJson.data);
       }
@@ -81,6 +135,7 @@ const getNotes = async () => {
   } catch (error) {
     showResponseMessage(error);
   }
+  hideLoader()
 };
 
 const removeNote = async (noteId) => {
@@ -91,9 +146,20 @@ const removeNote = async (noteId) => {
 
     const response = await fetch(`${BASE_URL}/notes/${noteId}`, options);
     const responseJson = await response.json();
-
+    showLoader();
     showResponseMessage(responseJson.message);
     getNotes();
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }, 1500);
+    });
+    
   } catch (error) {
     showResponseMessage(error);
   }
@@ -108,11 +174,23 @@ const addNote = async (note) => {
       },
       body: JSON.stringify(note)
     };
- 
+
+    showLoader();
     const response = await fetch(`${BASE_URL}/notes`, options);
     const responseJson = await response.json();
     showResponseMessage(responseJson.message);
     getNotes();
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+        Swal.fire({
+          title: "Successfull Adding Note!",
+          text: "Your file has been added.",
+          icon: "success"
+        });
+      }, 1500);
+    });
+
   } catch (error) {
     showResponseMessage(error);
   }
@@ -132,7 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const errorDescription = document.getElementById('validationDescription');
   const titleInput = document.querySelector('custom-input-title').shadowRoot.querySelector('input');
   const descriptionTextarea = document.querySelector('custom-textarea').shadowRoot.querySelector('textarea');
-
   form.addEventListener('submit', function(event) {
     event.preventDefault();
     
@@ -150,44 +227,11 @@ document.addEventListener('DOMContentLoaded', function() {
     addNote(notesObject);
     titleInput.value = '';
     descriptionTextarea.value = '';
-    alert('Successfull Add Note')
 
     // Sembunyikan popup dan aktifkan scrolling kembali
     popupBox.classList.remove("show");
     document.querySelector("body").style.overflow = "auto";
   });
 });
-
-const manualNambah = async () => {
-  try {
-    // Data catatan yang akan ditambahkan secara manual
-    const noteData = {
-      title: "Hello, Notes!",
-      body: "My new notes."
-    };
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(noteData)
-    };
-
-    const response = await fetch(`${BASE_URL}/notes`, options);
-    const responseJson = await response.json();
-    
-    // Memeriksa jika respons memiliki properti data
-    if (responseJson.data) {
-      const addedNote = responseJson.data; 
-      console.log('New note added:', addedNote);
-    }
-
-    showResponseMessage(responseJson.message);
-    getNotes();
-  } catch (error) {
-    showResponseMessage(error);
-  }
-};
 
 getNotes();

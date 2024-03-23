@@ -10,11 +10,15 @@
     <script src="https://kit.fontawesome.com/768e7b3923.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
     <main class="container">
         <header>
             <h1>My Notes</h1>
         </header>
-    
+        <section id="loader">
+            <div class="loader"></div>
+            <p>Loading</p>
+        </section>
         <section id="notesContainer">
             <div class="popup-box">
                 <div class="popup">
@@ -41,9 +45,11 @@
                 </li>
             </div>
         </section>
+        
     </main>
     <custom-footer></custom-footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- <script type="module" src="src/scripts/main.js"></script> -->
+    <!-- <script type="module" src="src/scripts/loader.js"></script> -->
 </body>
 </html>

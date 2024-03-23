@@ -184,24 +184,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const titleInput = document.querySelector('custom-input-title').shadowRoot.querySelector('input');
   const descriptionTextarea = document.querySelector('custom-textarea').shadowRoot.querySelector('textarea');
 
-  // Menambahkan event listener untuk validasi waktu nyata pada input title
-  titleInput.addEventListener('input', function() {
-    if (titleInput.validity.valueMissing) {
-        errorTitle.textContent = 'Field is required.';
-    } else {
-        errorTitle.textContent = '';
-    }
-  });
-
-  // Menambahkan event listener untuk validasi waktu nyata pada textarea description
-  descriptionTextarea.addEventListener('input', function() {
-    if (descriptionTextarea.validity.valueMissing) {
-        errorDescription.textContent = 'Field is required.';
-    } else {
-        errorDescription.textContent = '';
-    }
-  });
-
   form.addEventListener('submit', function(event) {
     event.preventDefault();
     
