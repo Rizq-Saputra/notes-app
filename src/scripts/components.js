@@ -2,24 +2,24 @@
 class CustomInputTitle extends HTMLElement {
   constructor() {
     super();
-    
-    const container = document.createElement('div');
-    container.classList.add('row', 'title');
-    
-    const label = document.createElement('label');
-    label.textContent = this.getAttribute('label') || 'Title'; // Menggunakan nilai atribut label atau default 'Title'
-    const id = this.getAttribute('id') || 'inputTitle';  // Menggunakan nilai atribut label atau default 'inputTitle'
-    
-    const input = document.createElement('input');
-    input.setAttribute('type', 'text');
-    input.setAttribute('id', id);
-    input.setAttribute('spellcheck', 'false');
-    input.setAttribute('required', '');
-    
+
+    const container = document.createElement("div");
+    container.classList.add("row", "title");
+
+    const label = document.createElement("label");
+    label.textContent = this.getAttribute("label") || "Title"; // Menggunakan nilai atribut label atau default 'Title'
+    const id = this.getAttribute("id") || "inputTitle"; // Menggunakan nilai atribut label atau default 'inputTitle'
+
+    const input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.setAttribute("id", id);
+    input.setAttribute("spellcheck", "false");
+    input.setAttribute("required", "");
+
     container.appendChild(label);
     container.appendChild(input);
-    
-    const shadowRoot = this.attachShadow({ mode: 'open' });
+
+    const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.innerHTML = `
       <style>
         :host {
@@ -49,38 +49,38 @@ class CustomInputTitle extends HTMLElement {
     shadowRoot.appendChild(container);
 
     // Event listener untuk validasi waktu nyata
-    input.addEventListener('input', function() {
+    input.addEventListener("input", function () {
       if (input.validity.valueMissing) {
-        input.setCustomValidity('Wajib diisi.');
+        input.setCustomValidity("Wajib diisi.");
       } else {
-        input.setCustomValidity('');
+        input.setCustomValidity("");
       }
     });
   }
-  
+
   // Fungsi ini dipanggil ketika atribut diubah
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'label') {
-      const label = this.shadowRoot.querySelector('label');
+    if (name === "label") {
+      const label = this.shadowRoot.querySelector("label");
       if (label) {
-        label.textContent = newValue || 'Title';
+        label.textContent = newValue || "Title";
       }
     }
   }
-  
+
   // Daftar nama atribut yang ingin dipantau
   static get observedAttributes() {
-    return ['label'];
+    return ["label"];
   }
-} 
-customElements.define('custom-input-title', CustomInputTitle);
- 
+}
+customElements.define("custom-input-title", CustomInputTitle);
+
 // Custom element Button
 class CustomButton extends HTMLElement {
   constructor() {
     super();
 
-    const button = document.createElement('button');
+    const button = document.createElement("button");
 
     // Salin atribut dari elemen custom ke elemen button
     const attributes = this.attributes;
@@ -91,35 +91,35 @@ class CustomButton extends HTMLElement {
     this.appendChild(button);
   }
 }
-customElements.define('custom-button', CustomButton);
+customElements.define("custom-button", CustomButton);
 
 class CustomTextArea extends HTMLElement {
   constructor() {
-      super();
-      
-      const container = document.createElement('div');
-      container.classList.add('row');
-      
-      const label = document.createElement('label');
-      label.textContent = this.getAttribute('label') || 'Label'; // Menggunakan nilai atribut label atau default 'Label'
-      
-      const textarea = document.createElement('textarea');
-      textarea.setAttribute('spellcheck', 'false');
-      textarea.setAttribute('required', '');
+    super();
 
-      // Atur atribut id jika disediakan dalam atribut kustom
-      const id = this.getAttribute('id');
-      if (id) {
-        textarea.setAttribute('id', id);
-      }
-      
-      container.appendChild(label);
-      container.appendChild(textarea);
-      
-      const shadowRoot = this.attachShadow({ mode: 'open' });
+    const container = document.createElement("div");
+    container.classList.add("row");
 
-      const style = document.createElement('style');
-      style.textContent = `
+    const label = document.createElement("label");
+    label.textContent = this.getAttribute("label") || "Label"; // Menggunakan nilai atribut label atau default 'Label'
+
+    const textarea = document.createElement("textarea");
+    textarea.setAttribute("spellcheck", "false");
+    textarea.setAttribute("required", "");
+
+    // Atur atribut id jika disediakan dalam atribut kustom
+    const id = this.getAttribute("id");
+    if (id) {
+      textarea.setAttribute("id", id);
+    }
+
+    container.appendChild(label);
+    container.appendChild(textarea);
+
+    const shadowRoot = this.attachShadow({ mode: "open" });
+
+    const style = document.createElement("style");
+    style.textContent = `
         :host {
           display: block;
           margin-bottom: 20px;
@@ -147,25 +147,25 @@ class CustomTextArea extends HTMLElement {
         }
       `;
 
-      shadowRoot.appendChild(style);
-      shadowRoot.appendChild(container);
+    shadowRoot.appendChild(style);
+    shadowRoot.appendChild(container);
   }
 }
 
-customElements.define('custom-textarea', CustomTextArea);
+customElements.define("custom-textarea", CustomTextArea);
 
 // Custom element Footer
 class CustomFooter extends HTMLElement {
   constructor() {
-      super();
-  
-      this._shadowRoot = this.attachShadow({ mode: 'open' });
-      this._style = document.createElement('style');
-      this.updateStyle();
-    }
+    super();
 
-    updateStyle() {
-      this._style.textContent = `
+    this._shadowRoot = this.attachShadow({ mode: "open" });
+    this._style = document.createElement("style");
+    this.updateStyle();
+  }
+
+  updateStyle() {
+    this._style.textContent = `
       :host {
           background-color: #35374B;
           width: 100%;
@@ -179,17 +179,17 @@ class CustomFooter extends HTMLElement {
           color:white;
       }
       `;
-    }
-    
-    connectedCallback() {
-      this.render();
-    }
+  }
 
-    render() {
-      this._shadowRoot.appendChild(this._style); 
-      this._shadowRoot.innerHTML += `  
+  connectedCallback() {
+    this.render();
+  }
+
+  render() {
+    this._shadowRoot.appendChild(this._style);
+    this._shadowRoot.innerHTML += `  
       <p>&copy; 2024 Muhammad Rizq Saputra</p>
       `;
   }
 }
-customElements.define("custom-footer", CustomFooter); 
+customElements.define("custom-footer", CustomFooter);
